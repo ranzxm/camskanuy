@@ -34,7 +34,8 @@ class DocumentExporter(context: Context) {
     suspend fun createPdf(document: DocumentWithPages): File = export("pdf") { output ->
         require(document.pages.isNotEmpty()) { "Cannot export an empty document" }
         require(document.pages.all { it.documentId == document.document.id }) { "Invalid document pages" }
-        PdfDocument().use { pdf ->
+        val pdf = PdfDocument()
+        try {
             val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
             document.sortedPages.forEachIndexed { index, page ->
                 currentCoroutineContext().ensureActive()
@@ -60,6 +61,8 @@ class DocumentExporter(context: Context) {
                 pdf.writeTo(stream)
                 stream.fd.sync()
             }
+        } finally {
+            pdf.close()
         }
     }
 

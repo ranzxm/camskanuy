@@ -22,7 +22,7 @@ class DocumentChoiceSheet : BottomSheetDialogFragment() {
         keys.forEachIndexed { index, key ->
             val label = labels[index]
             binding.choices.addView(MaterialButton(requireContext(), null,
-                com.google.android.material.R.attr.materialButtonTextButtonStyle).apply {
+                com.google.android.material.R.attr.borderlessButtonStyle).apply {
                 text = if (key == args.getString("selected")) getString(R.string.doc_selected, label) else label
                 isAllCaps = false
                 minHeight = (52 * resources.displayMetrics.density).toInt()
