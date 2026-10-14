@@ -66,12 +66,16 @@ fun CamskanuyRoot(app: CamskanuyApp) {
     val colors = if (dark) darkColorScheme(
         primary = Color(0xFFAFC6FF), onPrimary = Color(0xFF102B62),
         primaryContainer = Color(0xFF243E68), onPrimaryContainer = Color(0xFFDCE8FF),
+        secondaryContainer = Color(0xFF243E68), onSecondaryContainer = Color(0xFFDCE8FF),
+        scrim = Color(0xFF101827),
         background = Color(0xFF10151F), surface = Color(0xFF151C28),
         surfaceContainer = Color(0xFF202A39), onSurface = Color(0xFFF0F3F9),
         onSurfaceVariant = Color(0xFFBAC4D4), outlineVariant = Color(0xFF344156),
     ) else lightColorScheme(
         primary = Color(0xFF315DD7), onPrimary = Color.White,
         primaryContainer = Color(0xFFE8EEFF), onPrimaryContainer = Color(0xFF23428D),
+        secondaryContainer = Color(0xFFE8EEFF), onSecondaryContainer = Color(0xFF23428D),
+        scrim = Color(0xFF101827),
         background = Color(0xFFF6F7FB), surface = Color(0xFFFCFCFF),
         surfaceContainer = Color.White, onSurface = Color(0xFF1C2940),
         onSurfaceVariant = Color(0xFF65718A), outlineVariant = Color(0xFFE0E5F0),

@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isEnabled
@@ -23,9 +24,9 @@ class LaunchSmokeTest {
 
     @Test
     fun documentsScreenSurvivesActivityRecreation() {
-        compose.onNodeWithText(compose.activity.getString(R.string.doc_import)).assertIsDisplayed()
+        compose.onNodeWithText(compose.activity.getString(R.string.doc_import)).performScrollTo().assertIsDisplayed()
         compose.activityRule.scenario.recreate()
-        compose.onNodeWithText(compose.activity.getString(R.string.doc_import)).assertIsDisplayed()
+        compose.onNodeWithText(compose.activity.getString(R.string.doc_import)).performScrollTo().assertIsDisplayed()
     }
 
     @Test
