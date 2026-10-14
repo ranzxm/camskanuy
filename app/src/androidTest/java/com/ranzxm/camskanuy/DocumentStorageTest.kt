@@ -116,6 +116,37 @@ class DocumentStorageTest {
         assertNotNull(repository.getPage(page.id))
     }
 
+    @Test
+    fun invalidReplacementPreservesSavedPageAndRejectsBadOrder() = runBlocking {
+        val id = repository.createDraft().also(documents::add)
+        val page = requireNotNull(repository.getPage(addPage(id)))
+        val invalid = File.createTempFile("invalid-image-", ".jpg", context.cacheDir)
+        try {
+            invalid.writeText("not an image")
+            var replacementRejected = false
+            try {
+                repository.updatePage(page.id, invalid, source, page.crop, 0, "ORIGINAL")
+            } catch (_: java.io.IOException) {
+                replacementRejected = true
+            }
+            assertTrue(replacementRejected)
+            assertEquals(page, repository.getPage(page.id))
+            assertTrue(File(page.originalPath).isFile)
+            assertTrue(File(page.processedPath).isFile)
+
+            var orderRejected = false
+            try {
+                repository.reorderPages(id, listOf(page.id, page.id))
+            } catch (_: IllegalArgumentException) {
+                orderRejected = true
+            }
+            assertTrue(orderRejected)
+            assertEquals(listOf(page.id), requireNotNull(repository.getDocument(id)).sortedPages.map { it.id })
+        } finally {
+            invalid.delete()
+        }
+    }
+
     private suspend fun addPage(documentId: String): String = repository.addPage(
         documentId = documentId,
         source = source,

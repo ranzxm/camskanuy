@@ -14,6 +14,14 @@ A native, offline Android document scanner built with **Kotlin, XML Views, and M
 
 OCR, cloud sync, PDF text editing, and release distribution are outside this MVP. Implementation and physical-device verification are separate: a green CI build is not a guarantee of camera quality or full accessibility. See [the test checklist](docs/TESTING.md).
 
+### Initial limitations
+
+- Edge detection uses a small local contrast/component algorithm, not an AI model. Difficult backgrounds, shadows, or curved pages may require manual corner adjustment.
+- Page reordering uses accessible Move earlier/later actions; drag-and-drop is not implemented. Rotation is available inside the page editor.
+- Processing is capped at a 2400-pixel long edge to bound memory usage; this is not lossless archival scanning.
+- Zoom, large-font layouts, TalkBack, camera capture, and the 20-page/3 GB RAM target still require physical-device verification.
+- An interrupted external-provider export may leave a partial destination file; the app-private source document remains intact.
+
 ## Build and download — GitHub Actions only
 
 **Do not install Android Studio, an Android SDK/NDK, an emulator, or a JDK/Gradle toolchain on the user's computer.** The tracked Gradle Wrapper is project source for CI; do not execute it locally in this environment.

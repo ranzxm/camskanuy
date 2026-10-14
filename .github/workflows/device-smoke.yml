@@ -38,7 +38,9 @@ jobs:
             adb shell svc wifi disable
             adb shell svc data disable
             ./gradlew --no-daemon connectedDebugAndroidTest
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
             adb shell am start -W -n com.ranzxm.camskanuy/.MainActivity
+            sleep 2
             adb shell screencap -p /sdcard/camskanuy.png
             adb pull /sdcard/camskanuy.png app/build/reports/camskanuy.png
       - name: Upload device reports
