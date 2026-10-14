@@ -6,7 +6,7 @@
 
 CamScanner is a reference for feature categories, not a target for copying its identity or achieving full parity. Scan results are not guaranteed to match CamScanner.
 
-Status: **MVP implementation in progress; CI and physical-device validation are pending**. This document defines the target behavior, not a claim that every acceptance criterion has passed.
+Status: **Initial MVP implemented; build, lint, unit tests, and Android 35 emulator smoke tests passed for `dc378d1`. Physical-device acceptance remains pending.** This document defines the target behavior, not a claim that every acceptance criterion has passed.
 
 ## 2. Agreed decisions
 

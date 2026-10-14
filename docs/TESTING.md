@@ -2,14 +2,26 @@
 
 Record the commit SHA, device model, Android version, RAM, and observed results when testing. An unchecked item is **not verified**, even when the code appears to implement it.
 
+## Recorded validation — `dc378d1`
+
+- [Android CI](https://github.com/ranzxm/camskanuy/actions/runs/38592047115): successful build, lint, and 8 JVM unit tests; no failures or skipped tests.
+- Merged debug manifest check passed: no `android.permission.INTERNET`.
+- [Android device smoke test](https://github.com/ranzxm/camskanuy/actions/runs/38592048842): 6 instrumentation tests passed on the GitHub-hosted Android 35 x86_64 Pixel 2 emulator, with Wi-Fi/mobile data disabled.
+- Instrumentation coverage: activity launch/recreation, persistence, reorder, PDF/JPG generation, folder deletion, orphan reconciliation, failed replacement safety, EXIF rotation, and all four filters.
+- Documents-screen screenshot captured and reviewed; available in the device-smoke artifact.
+- Debug APK size: **8,364,580 bytes** (about 8.36 MB decimal). Artifact ZIP size is smaller; neither value predicts installed storage or document usage.
+- Lint passed with **103 warnings**, mostly newer dependency-version suggestions; warnings also include visual/resource and target-SDK recommendations. This is not a warning-free build or Play Store readiness claim.
+- The downloaded validation artifact did not contain the Room schema directory. Preserve a CI-generated schema before implementing any database migration; do not infer schema coverage from a successful build.
+- No local Android build/tool installation. Physical camera quality, full TalkBack/font-scale behavior, Android 26 compatibility, and the 20-page/3 GB RAM target remain unverified.
+
 ## Automated CI
 
-- [ ] Gradle Wrapper validation succeeds.
-- [ ] `lintDebug` completes without errors.
-- [ ] `testDebugUnitTest` passes; inspect the report for actual test counts.
-- [ ] `assembleDebug` produces an installable APK.
-- [ ] The merged manifest contains no `android.permission.INTERNET`.
-- [ ] Debug APK and validation reports are available as Actions artifacts.
+- [x] Gradle Wrapper validation succeeds.
+- [x] `lintDebug` completes without errors.
+- [x] `testDebugUnitTest` passes; inspect the report for actual test counts.
+- [x] `assembleDebug` produces an installable APK.
+- [x] The merged manifest contains no `android.permission.INTERNET`.
+- [x] Debug APK and validation reports are available as Actions artifacts.
 
 The local Windows environment is used only for source editing, static inspection, and Git. Do not run Gradle or install Android tooling there.
 

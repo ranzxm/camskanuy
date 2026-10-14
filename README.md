@@ -44,7 +44,7 @@ Artifacts expire after 14 days. Rerun the workflow to produce a new one. Debug A
 | Kotlin | 2.1.20 |
 | JDK | Temurin 17, provisioned by CI |
 
-CI runs `lintDebug`, `testDebugUnitTest`, and `assembleDebug`, checks the merged manifest for the absence of `INTERNET`, and uploads the APK, test/lint reports, and generated Room schema. Android dependencies are downloaded during the CI build, not during use of the application.
+CI runs `lintDebug`, `testDebugUnitTest`, and `assembleDebug`, checks the merged manifest for the absence of `INTERNET`, and uploads the APK, test/lint reports, and Room schema directory when generated. Android dependencies are downloaded during the CI build, not during use of the application. See the recorded validation in [docs/TESTING.md](docs/TESTING.md), including the missing schema artifact and outstanding device checks.
 
 The optional **Android device smoke test** workflow runs manually on a GitHub-hosted Android emulator with Wi-Fi/mobile data disabled. It checks launch, activity recreation, local document operations, and PDF/JPG generation, then captures the Documents screen. It does not replace camera testing on a physical phone, and is not considered passed until a successful run is recorded.
 
