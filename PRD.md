@@ -2,27 +2,30 @@
 
 ## 1. Overview
 
-**Camskanuy** is the working name of a native Android document scanner that turns document photos into clean images and multi-page PDFs. The application prioritizes short workflows, privacy, offline operation, and minimalist design.
+**Camskanuy** is the working name of a native Android document scanner that turns document photos into clean images and multi-page PDFs. The application prioritizes short workflows, privacy, offline operation, and friendly, airy design.
 
 CamScanner is a reference for feature categories, not a target for copying its identity or achieving full parity. Scan results are not guaranteed to match CamScanner.
 
-Status: **Initial MVP implemented; build, lint, unit tests, and Android 35 emulator smoke tests passed for `dc378d1`. Physical-device acceptance remains pending.** This document defines the target behavior, not a claim that every acceptance criterion has passed.
+Status: **Compose migration and friendly redesign approved; validation pending.** Build, lint, unit tests, and Android 35 emulator smoke tests for `dc378d1` apply only to the legacy XML UI, not Compose. Physical-device acceptance remains pending. This document defines target behavior, not a claim that every acceptance criterion has passed.
 
 ## 2. Agreed decisions
 
 | Area | Decision |
 | --- | --- |
 | Platform | Native Android, Kotlin |
-| UI | XML Views + Material Components, not Compose |
+| UI | Jetpack Compose Material 3, `activity-compose`, `navigation-compose` |
+| UI state | ViewModels, StateFlows collected with `collectAsStateWithLifecycle` |
 | Connectivity | All core features work offline from first use |
 | Storage | On-device storage, without accounts or synchronization |
-| Design | Modern minimalist design, light/dark mode |
+| Design | Friendly, airy light surfaces, navy text, blue accents; light/dark mode |
 | OCR | Outside the MVP |
 | Build | GitHub Actions; no Android tools installed on the user's computer |
 | Initial distribution | Debug APK from Actions artifacts, tested on physical phones |
 | Repository | https://github.com/ranzxm/camskanuy.git |
 
 Initial technical baseline: Android 8.0 / API 26 and above. Application ID: `com.ranzxm.camskanuy`. The working name and icon identity can be finalized before public distribution.
+
+The user-approved Compose redesign supersedes the XML foundation without changing MVP scope. `AndroidView` interoperability is limited to CameraX `PreviewView`, the existing crop overlay, and optional existing zoom view.
 
 ## 3. Target users and primary needs
 
@@ -31,6 +34,8 @@ Initial technical baseline: Android 8.0 / API 26 and above. Application ID: `com
 - Users of resource-constrained devices who need responsive previews and simple controls.
 
 Primary flow: **Documents → Camera/Gallery → Edit scan → Arrange pages → Save → Details → Export/Share**.
+
+Presentation: first-scan hero with Scan/Import actions; compact search/folder chips, thumbnail cards, and draft resume; full-viewport dark camera with compact bottom shutter controls; large editor preview with bottom tool tabs, filter strip, and expandable fine adjustment; document preview with pinned Export/Share actions. See `DESIGN.md` for interactions and accessibility.
 
 ## 4. MVP scope
 
@@ -139,7 +144,7 @@ Efficient image encoding is still required in the MVP; it is distinct from a ded
 
 ## 9. Implementation phases
 
-1. **Foundation:** project bootstrap, XML theme, navigation, local storage, and CI producing an initial APK.
+1. **Foundation:** Compose Material 3 theme, activity/navigation integration, lifecycle-aware StateFlows, local storage, and CI producing an initial APK.
 2. **Scanning:** camera, import, edge detection, cropping/perspective correction, rotation, and local filters.
 3. **Documents:** drafts, page arrangement, saving, listing, search, and folders.
 4. **Output:** document details, PDF/JPG export, sharing, and failure handling.

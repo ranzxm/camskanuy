@@ -1,6 +1,8 @@
 # Camskanuy
 
-A native, offline Android document scanner built with **Kotlin, XML Views, and Material Components**. No accounts, ads, analytics, or runtime model downloads.
+A native, offline Android document scanner migrating to **Kotlin, Jetpack Compose, and Material 3**. No accounts, ads, analytics, or runtime model downloads.
+
+**Compose validation pending.** Recorded results for `dc378d1` cover the legacy XML implementation only, not the redesigned UI.
 
 ## Product scope
 
@@ -13,6 +15,13 @@ A native, offline Android document scanner built with **Kotlin, XML Views, and M
 - Light, dark, and system appearance; Indonesian application UI.
 
 OCR, cloud sync, PDF text editing, and release distribution are outside this MVP. Implementation and physical-device verification are separate: a green CI build is not a guarantee of camera quality or full accessibility. See [the test checklist](docs/TESTING.md).
+
+## Compose redesign
+
+- Single activity with `activity-compose`, `navigation-compose`, and ViewModel StateFlows collected using `collectAsStateWithLifecycle`.
+- Friendly, airy light surfaces, navy text, blue accents; welcoming first-scan hero with Scan/Import, compact search/folder chips, thumbnail cards, draft resume.
+- Full-viewport dark camera with compact shutter controls; large editor preview, bottom tool tabs, filter strip, expandable crop fine adjustment; document preview with pinned Export/Share.
+- `AndroidView` only for CameraX `PreviewView`, the existing crop overlay, and optional existing zoom view. Screen UI lives in Kotlin composables; XML remains for platform resources/configuration.
 
 ### Initial limitations
 
@@ -44,9 +53,9 @@ Artifacts expire after 14 days. Rerun the workflow to produce a new one. Debug A
 | Kotlin | 2.1.20 |
 | JDK | Temurin 17, provisioned by CI |
 
-CI runs `lintDebug`, `testDebugUnitTest`, and `assembleDebug`, checks the merged manifest for the absence of `INTERNET`, and uploads the APK, test/lint reports, and Room schema directory when generated. Android dependencies are downloaded during the CI build, not during use of the application. See the recorded validation in [docs/TESTING.md](docs/TESTING.md), including the missing schema artifact and outstanding device checks.
+CI runs `lintDebug`, `testDebugUnitTest`, and `assembleDebug`, checks the merged manifest for the absence of `INTERNET`, and uploads the APK, test/lint reports, and Room schema directory when generated. Android dependencies are downloaded during the CI build, not during use of the application. See legacy XML validation in [docs/TESTING.md](docs/TESTING.md), including the missing schema artifact. Compose requires a fresh successful run and device checks.
 
-The optional **Android device smoke test** workflow runs manually on a GitHub-hosted Android emulator with Wi-Fi/mobile data disabled. It checks launch, activity recreation, local document operations, and PDF/JPG generation, then captures the Documents screen. It does not replace camera testing on a physical phone, and is not considered passed until a successful run is recorded.
+The optional **Android device smoke test** workflow runs manually on a GitHub-hosted Android emulator with Wi-Fi/mobile data disabled. It checks launch, activity recreation, local document operations, and PDF/JPG generation, then captures the Documents screen. Its recorded legacy XML pass does not validate Compose; a migrated-commit run is pending. It does not replace camera testing on a physical phone.
 
 ## Privacy and storage
 

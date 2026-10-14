@@ -2,7 +2,6 @@ package com.ranzxm.camskanuy
 
 import android.app.Application
 import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
 import com.ranzxm.camskanuy.data.DocumentExporter
 import com.ranzxm.camskanuy.data.DocumentRepository
 import com.ranzxm.camskanuy.scanner.ImageProcessor
@@ -20,14 +19,6 @@ class CamskanuyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val mode = getSharedPreferences("appearance", MODE_PRIVATE).getString("mode", "system")
-        AppCompatDelegate.setDefaultNightMode(
-            when (mode) {
-                "light" -> AppCompatDelegate.MODE_NIGHT_NO
-                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
-                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            },
-        )
         applicationScope.launch {
             try {
                 repository.reconcileFiles()

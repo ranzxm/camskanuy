@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/inputLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_large" android:paddingTop="@dimen/spacing_medium" app:boxBackgroundMode="outline">
-    <com.google.android.material.textfield.TextInputEditText android:id="@+id/input" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textCapSentences" android:maxLines="3" android:maxLength="121" android:imeOptions="actionDone" />
-</com.google.android.material.textfield.TextInputLayout>

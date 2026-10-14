@@ -284,6 +284,7 @@ class EditorViewModel(application: Application, private val saved: SavedStateHan
 
     fun discard() {
         if (state.value.saving || actionJob?.isActive == true) return
+        mutableState.update { it.copy(loading = true) }
         actionJob = viewModelScope.launch {
             loadJob?.cancelAndJoin()
             previewJob?.cancelAndJoin()

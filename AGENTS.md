@@ -4,7 +4,7 @@
 
 - Target repository: https://github.com/ranzxm/camskanuy.git.
 - Working application name: **Camskanuy**. Application ID: `com.ranzxm.camskanuy`.
-- Product: an offline Android document scanner with a modern, minimalist UI.
+- Product: an offline Android document scanner with a friendly, airy, modern UI.
 - `PRD.md` defines product scope, behavior, and acceptance criteria.
 - `DESIGN.md` defines visuals, interactions, and accessibility.
 - This document defines the workflow for developers and agents.
@@ -12,7 +12,7 @@
 
 ## Mandatory constraints
 
-1. Use **Kotlin + Android XML Views + Material Components**. Do not use Flutter, React Native, or Jetpack Compose.
+1. Use **Kotlin + Jetpack Compose + Material 3**. The user-approved Compose redesign replaces the XML UI foundation; do not use Flutter or React Native.
 2. All core features must work offline from the first launch. Do not depend on models, modules, or scanner services that require runtime downloads.
 3. The MVP has no accounts, cloud sync, advertising, analytics, or OCR.
 4. Do not add the `INTERNET` permission to the MVP; also inspect permissions contributed by dependencies in the merged manifest.
@@ -29,8 +29,9 @@
 
 ## Technical foundation
 
-- UI: XML layouts, Material Components, ViewBinding, Fragment, and Navigation Component.
-- Architecture: single activity, ViewModel, StateFlow, coroutines, and a simple local repository.
+- UI: Compose Material 3, `activity-compose`, and `navigation-compose`; Kotlin screen composables replace XML layouts, ViewBinding, and Fragment navigation.
+- Architecture: single activity, ViewModel, StateFlow, coroutines, and a simple local repository. Collect StateFlows with `collectAsStateWithLifecycle` from `lifecycle-runtime-compose`.
+- Interoperability: use `AndroidView` only for CameraX `PreviewView`, the existing crop overlay, and optional existing zoom view. Do not rebuild whole screens with embedded Views.
 - Camera: CameraX. A custom camera flow and local processing are required; do not use scanner SDKs that require runtime downloads.
 - Document metadata: Room. Image and PDF files: app-private storage.
 - Import: Android Photo Picker where available, with a Storage Access Framework fallback.
@@ -49,12 +50,14 @@ app/src/main/
     data/                 # Room, repositories, file access
     scanner/              # Local edge detection and image transforms
     ui/
-      documents/
-      capture/
-      editor/
-      pages/
-      detail/
-  res/                    # XML layouts, themes, tokens, drawables, strings
+      CamskanuyRoot.kt     # Compose navigation host
+      common/             # Shared Compose theme/components, existing zoom View
+      documents/DocumentsScreen.kt
+      capture/CaptureScreen.kt
+      editor/EditorScreen.kt # Existing CropOverlayView.kt may remain
+      pages/PagesScreen.kt
+      detail/DetailScreen.kt
+  res/                    # Strings, drawables, platform theme/configuration
 app/src/test/             # Unit tests
 app/src/androidTest/      # Instrumentation tests when needed
 gradle/                   # Version catalog and wrapper
@@ -69,8 +72,8 @@ gradle/                   # Version catalog and wrapper
 - Use Kotlin null safety; avoid `!!`, swallowed exceptions, and global mutable UI state.
 - Perform decoding, filtering, transformations, compression, and export off the main thread.
 - Use downsampled previews; do not keep full-resolution bitmaps for every page in memory.
-- Respect screen lifecycles for Flow collection, camera binding, and work cancellation.
-- Extract strings, colors, dimensions, and styles into Android resources. Follow the tokens in `DESIGN.md`.
+- Respect screen lifecycles for Flow collection, camera binding, and work cancellation. Dispose camera/View bindings when their composable leaves composition.
+- Keep localized text in string resources; centralize Compose colors, typography, spacing, and shapes in shared theme/tokens. Follow `DESIGN.md`; retain XML only for platform configuration/resources, not screen layouts.
 - Validate image inputs, EXIF orientation, dimensions, and corrupt files. Do not assume a URI has a filesystem path.
 - Keep metadata and files consistent; handle partial failures, full storage, cancellation, and temporary-file cleanup.
 - Image-processing dependencies must work offline, have compatible licenses, and be evaluated for APK size impact. Do not add OpenCV without assessing its necessity and cost.
@@ -96,5 +99,6 @@ gradle/                   # Version catalog and wrapper
 - Use Actions for lint, unit tests, and builds. Add emulator/instrumentation testing in CI when needed; do not run a local emulator.
 - Camera behavior, scan quality, low-memory behavior, and usability require testing on a physical phone. A successful build does not prove that all features work.
 - Report separately: checks actually executed, CI results, device testing, and anything not yet verified.
+- Results for `dc378d1` validate the legacy XML implementation only. Compose lint, tests, build, screenshots, and device acceptance remain pending until results for the migrated commit are recorded.
 - For Markdown-only changes, a documentation consistency review is sufficient; do not claim Android tests have run.
 - Update the PRD/DESIGN together when behavior or design changes. Record new decisions without silently changing existing agreements.

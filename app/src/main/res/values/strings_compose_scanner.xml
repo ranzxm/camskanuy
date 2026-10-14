@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_fine_adjust">Sesuaikan presisi</string>
+    <string name="scan_adjust_expanded">Kontrol sudut ditampilkan</string>
+    <string name="scan_adjust_collapsed">Kontrol sudut disembunyikan</string>
+</resources>

@@ -2,7 +2,13 @@
 
 Record the commit SHA, device model, Android version, RAM, and observed results when testing. An unchecked item is **not verified**, even when the code appears to implement it.
 
-## Recorded validation — `dc378d1`
+## Current Compose migration — validation pending
+
+No Compose build, lint, unit/instrumentation results, screenshots, or physical-device acceptance are recorded yet. Rerun CI against the migrated commit; do not carry forward legacy XML checkmarks, APK size, or warning counts as Compose results.
+
+## Recorded legacy XML validation — `dc378d1`
+
+Historical evidence only: these results predate the Compose redesign.
 
 - [Android CI](https://github.com/ranzxm/camskanuy/actions/runs/38592047115): successful build, lint, and 8 JVM unit tests; no failures or skipped tests.
 - Merged debug manifest check passed: no `android.permission.INTERNET`.
@@ -14,14 +20,15 @@ Record the commit SHA, device model, Android version, RAM, and observed results 
 - The downloaded validation artifact did not contain the Room schema directory. Preserve a CI-generated schema before implementing any database migration; do not infer schema coverage from a successful build.
 - No local Android build/tool installation. Physical camera quality, full TalkBack/font-scale behavior, Android 26 compatibility, and the 20-page/3 GB RAM target remain unverified.
 
-## Automated CI
+## Automated CI — current Compose commit
 
-- [x] Gradle Wrapper validation succeeds.
-- [x] `lintDebug` completes without errors.
-- [x] `testDebugUnitTest` passes; inspect the report for actual test counts.
-- [x] `assembleDebug` produces an installable APK.
-- [x] The merged manifest contains no `android.permission.INTERNET`.
-- [x] Debug APK and validation reports are available as Actions artifacts.
+- [ ] Gradle Wrapper validation succeeds.
+- [ ] `lintDebug` completes without errors.
+- [ ] `testDebugUnitTest` passes; inspect the report for actual test counts.
+- [ ] `assembleDebug` produces an installable APK.
+- [ ] The merged manifest contains no `android.permission.INTERNET`.
+- [ ] Debug APK and validation reports are available as Actions artifacts.
+- [ ] Emulator smoke tests pass for the Compose commit; capture/review redesigned screens, navigation, and activity recreation.
 
 The local Windows environment is used only for source editing, static inspection, and Git. Do not run Gradle or install Android tooling there.
 
@@ -68,6 +75,11 @@ The local Windows environment is used only for source editing, static inspection
 
 ### Design and accessibility
 
+- [ ] Empty-state hero exposes Scan/Import; compact search/folder chips, thumbnail cards, and Resume/Discard draft actions work.
+- [ ] Full-viewport camera keeps dark shutter controls accessible; leaving/reopening the screen releases/rebinds CameraX correctly.
+- [ ] Editor keeps a large preview, bottom Crop/Filter tabs, filter strip, and expandable corner fine adjustment usable without drag gestures.
+- [ ] Document preview and pinned Export/Share remain clear of system bars, thumbnails, and page navigation.
+- [ ] Compose navigation/back behavior and lifecycle-aware StateFlows survive rotation/backgrounding without duplicate work or lost confirmed pages.
 - [ ] Light, dark, and system modes are consistent across all screens and dialogs.
 - [ ] At 200% font scaling, primary controls and labels remain reachable.
 - [ ] TalkBack supports capture, manual crop, filter selection, reorder, save, and export.

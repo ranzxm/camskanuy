@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="compose_documents_title">Dokumen saya</string>
+    <string name="compose_documents_subtitle">Simpan yang penting. Tetap rapi.</string>
+    <string name="compose_offline">Offline · di perangkat</string>
+    <string name="compose_all">Semua</string>
+    <string name="compose_empty_title">Mulai dari satu halaman</string>
+    <string name="compose_empty_body">Catatan, kuitansi, atau berkas penting. Pindai dengan kamera atau impor gambar.</string>
+    <string name="compose_scan">Pindai dokumen</string>
+    <string name="compose_reset_filters">Tampilkan semua</string>
+    <string name="compose_resume_title">Pindaian belum selesai</string>
+    <string name="compose_resume_body">%1$d halaman tersimpan · lanjutkan kapan saja</string>
+    <string name="compose_pages_subtitle">Rapikan urutan, edit, lalu simpan.</string>
+    <string name="compose_pages_hint">Buka opsi halaman untuk memindahkan urutannya.</string>
+    <string name="compose_preview_title">Pratinjau dokumen</string>
+    <string name="compose_pages_empty_title">Halaman pertama Anda</string>
+    <string name="compose_import_short">Impor</string>
+</resources>

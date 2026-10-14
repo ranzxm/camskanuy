@@ -38,11 +38,18 @@ jobs:
             adb shell svc wifi disable
             adb shell svc data disable
             ./gradlew --no-daemon connectedDebugAndroidTest
+            adb pull /sdcard/Download/camskanuy-detail.png app/build/reports/camskanuy-detail.png
+            adb pull /sdcard/Download/camskanuy-pages.png app/build/reports/camskanuy-pages.png
+            adb pull /sdcard/Download/camskanuy-editor.png app/build/reports/camskanuy-editor.png
             adb install -r app/build/outputs/apk/debug/app-debug.apk
             adb shell am start -W -n com.ranzxm.camskanuy/.MainActivity
             sleep 2
             adb shell screencap -p /sdcard/camskanuy.png
             adb pull /sdcard/camskanuy.png app/build/reports/camskanuy.png
+            adb shell cmd uimode night yes
+            sleep 2
+            adb shell screencap -p /sdcard/camskanuy-dark.png
+            adb pull /sdcard/camskanuy-dark.png app/build/reports/camskanuy-dark.png
       - name: Upload device reports
         if: always()
         uses: actions/upload-artifact@v4

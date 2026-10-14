@@ -2,19 +2,19 @@
 
 ## 1. Visual direction
 
-**Minimalist, calm, clear, and document-focused.** XML Views is an implementation technology, not a reason to use outdated Android visuals. Use Material Components with a Views-based Material 3 theme, without Compose.
+**Friendly, airy, calm, and document-focused.** Use Jetpack Compose Material 3. The approved redesign replaces XML screens while preserving the offline MVP and existing document workflows.
 
-- Keep documents as the visual focus, rather than decorative cards or oversized illustrations.
-- Use a single blue accent and a consistent typographic hierarchy.
+- Use warm, short copy and a welcoming first-scan hero; keep saved documents as the visual focus.
+- Pair light surfaces, navy text, and blue accents with a consistent typographic hierarchy. Preserve an equally readable dark theme.
 - Prioritize whitespace, alignment, and contrast over excessive shadows or gradients.
 - Avoid statistics dashboards, promotional banners, unnecessary bottom navigation, and duplicate actions.
 - Do not imitate CamScanner's logo, assets, or distinctive visual arrangements.
 
 ## 2. Design tokens
 
-Store all values in resources/themes; use semantic attributes in layouts rather than hardcoded per-component colors.
+Centralize colors, typography, spacing, and shapes in the Compose theme/shared tokens. Use `MaterialTheme` semantic values rather than hardcoded per-component colors; keep localized text in string resources.
 
-### Initial colors
+### Palette
 
 | Semantic token | Light | Dark | Usage |
 | --- | --- | --- | --- |
@@ -57,24 +57,21 @@ Use the system sans-serif font (Roboto on devices that provide it), without down
 
 - Spacing scale: **4, 8, 12, 16, 24, 32 dp**.
 - Phone screen horizontal margins: 20dp; gaps between related elements: 8–12dp.
-- Corner radii: controls/cards 12dp, sheet top corners 24dp, thumbnails 8dp.
+- Corner radii: controls 12dp, cards 20dp, hero/sheet top corners 24dp, thumbnails 12dp.
 - Minimum touch target: 48 × 48dp; visual icons are typically 24dp.
 - Primary buttons: min-height 52dp, not a fixed height.
 - Keep elevation low; use separators or surface differences when clearer.
-- Apply WindowInsets for status/navigation bars, display cutouts, and the keyboard. Do not apply system padding twice.
+- Apply Compose `WindowInsets` for status/navigation bars, display cutouts, and the keyboard. Do not apply system padding twice.
 
-## 3. Components and Views implementation
+## 3. Compose implementation
 
-- `MaterialToolbar`: title, back navigation, and contextual overflow.
-- `RecyclerView`: document lists, pages, and thumbnails; do not place the entire list inside a ScrollView.
-- `ExtendedFloatingActionButton`: Scan action on the Documents screen.
-- `MaterialButton`: primary and secondary actions.
-- `TextInputLayout` + `TextInputEditText`: renaming, folders, and other inputs with clear errors.
-- `BottomSheetDialogFragment`: page sources, export options, folder filters, and appearance settings.
-- `MaterialAlertDialogBuilder`: confirmation for deletion or discarding changes.
-- Use ViewBinding for view access and ConstraintLayout where appropriate; avoid unnecessary nesting.
+- `activity-compose` hosts the single-activity UI; `navigation-compose` connects Kotlin screen composables.
+- Collect ViewModel StateFlows with `collectAsStateWithLifecycle` from `lifecycle-runtime-compose`; do not restart processing on recomposition.
+- Use Material 3 `Scaffold`, top app bars, `Button`, `OutlinedTextField`, `FilterChip`, `Card`, `ModalBottomSheet`, and `AlertDialog` for native, consistent controls.
+- Use `LazyColumn`, `LazyRow`, or adaptive lazy grids for document cards, pages, and filter previews; load downsampled images off the main thread.
+- Pin primary bottom actions inside safe areas; scroll secondary content without hiding the last item.
 - Bundle vector icons with a consistent outline style. Icon-only controls require accessibility labels; decorative thumbnails should not be announced repeatedly.
-- A custom crop overlay is allowed for corner manipulation, with accessible alternative controls.
+- Restrict `AndroidView` to CameraX `PreviewView`, the existing crop overlay, and optional existing zoom view. Bind/dispose with screen lifecycles; retain accessible alternatives to crop dragging and zoom gestures.
 
 ## 4. Screen map and interactions
 
@@ -97,21 +94,20 @@ Multiple imported images enter an editor review queue; process them one at a tim
 
 ### 4.1 Documents
 
-- Toolbar: **Documents**, search action, and overflow for Appearance/App information.
-- Compact folder filter below the toolbar; default to **All documents**. The folder sheet includes Unfiled and folder management.
-- Vertical list with thumbnail, name, last-updated date, page count, and per-document overflow.
+- Friendly heading, compact search field, and overflow for Appearance/App information.
+- Compact folder chips below search; default to **All documents**. The folder sheet includes Unfiled and folder management.
+- Airy thumbnail cards with name, last-updated date, page count, and per-document overflow.
 - Tapping an item opens details. Overflow actions: Rename, Move, Share, Delete.
-- Place the **Scan** extended FAB at the bottom right without obscuring the last list item.
-- Offer a labeled import button in the empty state and through the camera sheet/actions; do not gate import behind camera permission.
-- Empty state: **No documents yet** — “Scan or import an image to create your first document.”
+- With saved documents, keep **Scan** prominent near the bottom without obscuring the last card; retain a labeled Import action.
+- Empty state: a welcoming, softly tinted hero — **Your first scan starts here** — “Turn a page into a document, right here on your phone.” Primary **Scan a document**, secondary **Import images**. Do not gate import behind camera permission.
 - Empty search: **No documents found**, with an option to clear the search.
-- Display an active draft as a **Resume scan** row, separate from saved documents.
+- Display an active draft as a compact **Resume scan** card, separate from saved documents, with page count and explicit Resume/Discard actions.
 
 ### 4.2 Camera
 
-- Make the preview dominant, with dark surrounding controls for readability over the image.
+- Fill the camera viewport with the preview; use a dark, compact control treatment with readable scrims. Respect cutouts and system bars.
 - Top area: back and accessibly labeled flash controls.
-- Bottom area: Gallery, a large centered shutter, and access to draft pages when available.
+- Compact bottom area: Gallery, a large centered shutter, and access to draft pages when available. Avoid a tall panel that shrinks the viewport.
 - Short instruction: “Place the document inside the frame.”
 - The guide frame does not imply live detection. The MVP detects edges after capture.
 - Open the editor after capture; the user selects Use page before it is added to the draft.
@@ -120,12 +116,12 @@ Multiple imported images enter an editor review queue; process them one at a tim
 ### 4.3 Edit scan
 
 - Toolbar: back, **Edit scan** title, and page context when needed.
-- Large preview with a crop overlay and four easy-to-touch corner handles.
-- Select **Crop** and **Filter** tool modes through labeled controls; provide rotation as an icon + text action.
-- Filter options use small previews and labels: Original, Color, Grayscale, Black and white. Mark the active option with an outline/checkmark, not color alone.
+- Give the large preview most of the screen, with a crop overlay and four easy-to-touch corner handles.
+- Bottom labeled tool tabs: **Crop** and **Filter**; provide rotation as an icon + text action. Keep secondary controls compact, not stacked above the preview.
+- In Filter mode, show a horizontal preview strip: Original, Color, Grayscale, Black and white. Mark the active option with an outline/checkmark, not color alone.
 - Bottom primary action: **Use page** for new pages, **Save changes** when re-editing.
 - When crop detection fails: “Adjust the document corners manually.”
-- Provide a crop reset action. For accessibility, allow selecting and moving corners with directional controls rather than drag gestures alone.
+- Provide crop reset and an expandable **Fine adjustment** section for selecting and moving corners with directional controls. Keep it collapsed by default; TalkBack must expose the toggle and controls. This adjusts crop corners, not new brightness/contrast features.
 - Navigating back with unapplied changes offers Keep editing/Discard changes.
 
 ### 4.4 Arrange pages
@@ -142,10 +138,10 @@ Multiple imported images enter an editor review queue; process them one at a tim
 ### 4.5 Document details
 
 - Toolbar: document name and overflow for Rename/Move/Delete.
-- Page preview with a `1 / 3` indicator and thumbnail navigation when needed.
+- Large document page preview with a `1 / 3` indicator and compact thumbnail navigation when needed.
 - Zoom and page navigation must not compete for gestures; provide previous/next page buttons as alternatives.
 - **Edit pages** opens page arrangement to modify the document.
-- Bottom actions: **Export** as primary, **Share** as secondary.
+- Pinned bottom actions: **Export** as primary, **Share** as secondary, above navigation insets and clear of the preview/navigation controls.
 - Export/share sheet: **PDF — All pages** or **JPG — Current page**.
 - Do not display OCR, password, or cloud options as nonfunctional buttons in the MVP.
 
@@ -188,4 +184,4 @@ Multiple imported images enter an editor review queue; process them one at a tim
 - [ ] No cloud/login/advertising, CamScanner assets, or online font/icon dependencies are present.
 - [ ] Screenshots and device-test results are distinguished from mockups/specifications.
 
-This document is an initial specification, not evidence of an implemented UI. Design changes affecting workflows or scope must be synchronized with `PRD.md`.
+This document specifies the approved Compose redesign, not evidence of validation. Legacy XML results for `dc378d1` do not validate these screens; Compose CI, screenshots, and device review remain pending. Design changes affecting workflows or scope must be synchronized with `PRD.md`.
