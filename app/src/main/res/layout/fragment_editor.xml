@@ -62,7 +62,7 @@
                 android:visibility="gone" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/skip"
-                style="?attr/materialButtonTextStyle"
+                style="?attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/scan_skip"

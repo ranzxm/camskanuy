@@ -44,6 +44,8 @@ class DocumentUiViewModel(
     val pendingExport: StateFlow<Bundle?> = saved.getStateFlow("pendingExport", null)
     private var retryAction: (() -> Unit)? = null
     private var observation: Job? = null
+    private var queuedExportResult: Uri? = null
+    private var exportResultQueued = false
 
     init {
         observe()
@@ -102,6 +104,12 @@ class DocumentUiViewModel(
                 fail { perform(block) }
             } finally {
                 _working.value = false
+                if (exportResultQueued) {
+                    val uri = queuedExportResult
+                    exportResultQueued = false
+                    queuedExportResult = null
+                    finishExport(uri)
+                }
             }
         }
     }
@@ -169,6 +177,11 @@ class DocumentUiViewModel(
     fun clearExport() { saved["pendingExport"] = null; saved["writeUri"] = null }
 
     fun finishExport(uri: Uri?) {
+        if (_working.value) {
+            queuedExportResult = uri
+            exportResultQueued = true
+            return
+        }
         if (uri == null) { clearExport(); return }
         val path = pendingExport.value?.getString("path") ?: run {
             fail { clearExport() }
