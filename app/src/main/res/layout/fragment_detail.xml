@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="?attr/colorSurface">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+    <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:navigationIcon="@drawable/doc_back" app:navigationContentDescription="@string/doc_back" />
+    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" />
+    <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/screen_margin" android:text="@string/doc_exporting" android:textAppearance="?attr/textAppearanceBodySmall" android:accessibilityLiveRegion="polite" android:visibility="gone" />
+    <FrameLayout android:layout_width="match_parent" android:layout_height="360dp" android:layout_marginHorizontal="@dimen/screen_margin" android:background="?attr/colorSurfaceVariant">
+        <com.ranzxm.camskanuy.ui.common.DocumentZoomView android:id="@+id/preview" android:layout_width="match_parent" android:layout_height="match_parent" android:contentDescription="@string/doc_title" />
+        <TextView android:id="@+id/empty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center" android:padding="@dimen/spacing_medium" android:gravity="center" android:text="@string/doc_empty_pages" android:textAppearance="?attr/textAppearanceBodyLarge" android:visibility="gone" />
+    </FrameLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center">
+        <com.google.android.material.button.MaterialButton android:id="@+id/zoomOut" style="?attr/materialButtonTextButtonStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minWidth="48dp" android:text="@string/doc_zoom_out" android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/zoomReset" style="?attr/materialButtonTextButtonStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minWidth="48dp" android:text="@string/doc_zoom_reset" android:textAllCaps="false" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/zoomIn" style="?attr/materialButtonTextButtonStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minWidth="48dp" android:text="@string/doc_zoom_in" android:textAllCaps="false" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="@dimen/spacing_small">
+        <com.google.android.material.button.MaterialButton android:id="@+id/previous" style="?attr/materialButtonTextButtonStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/doc_previous" android:textAllCaps="false" />
+        <TextView android:id="@+id/indicator" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_small" android:textAppearance="?attr/textAppearanceBodyMedium" android:accessibilityLiveRegion="polite" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/next" style="?attr/materialButtonTextButtonStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/doc_next" android:textAllCaps="false" />
+    </LinearLayout>
+    <com.google.android.material.button.MaterialButton android:id="@+id/edit" style="?attr/materialButtonTextButtonStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="@dimen/screen_margin" android:text="@string/doc_edit_pages" android:textAllCaps="false" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="@dimen/screen_margin" android:paddingBottom="@dimen/spacing_small">
+        <com.google.android.material.button.MaterialButton android:id="@+id/share" style="?attr/materialButtonOutlinedStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="@dimen/spacing_small" android:text="@string/doc_share" android:textAllCaps="false" android:minHeight="52dp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/export" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/doc_export" android:textAllCaps="false" android:minHeight="52dp" />
+    </LinearLayout>
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>

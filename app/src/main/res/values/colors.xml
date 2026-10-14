@@ -1,0 +1,15 @@
+<resources>
+    <color name="primary">#2563EB</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#DBEAFE</color>
+    <color name="on_primary_container">#1E3A8A</color>
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#EEF2F6</color>
+    <color name="on_surface">#172033</color>
+    <color name="on_surface_variant">#526174</color>
+    <color name="outline">#CBD5E1</color>
+    <color name="error">#B3261E</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="launcher_background">#2563EB</color>
+</resources>

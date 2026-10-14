@@ -1,0 +1,83 @@
+name: Android CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK on CI only
+        uses: android-actions/setup-android@v3
+
+      - name: Install pinned Android platform
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+
+      - name: Validate wrapper and configure Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Lint, unit tests, and debug APK
+        run: ./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug
+
+      - name: Verify offline manifest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import glob
+          import xml.etree.ElementTree as ET
+          manifests = glob.glob('app/build/intermediates/merged_manifests/debug/**/AndroidManifest.xml', recursive=True)
+          if not manifests:
+              raise SystemExit('Merged debug manifest not found')
+          android_name = '{http://schemas.android.com/apk/res/android}name'
+          for path in manifests:
+              root = ET.parse(path).getroot()
+              for element in root:
+                  if element.tag.startswith('uses-permission') and element.get(android_name) == 'android.permission.INTERNET':
+                      raise SystemExit('Offline policy violated: INTERNET permission in ' + path)
+          print('Verified: no INTERNET permission in merged debug manifest')
+          PY
+
+      - name: Identify build
+        id: build
+        run: echo "sha=${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: camskanuy-debug-${{ steps.build.outputs.sha }}
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload validation reports and Room schema
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-validation-${{ github.run_number }}
+          path: |
+            app/build/reports/
+            app/build/test-results/
+            app/schemas/
+          if-no-files-found: warn
+          retention-days: 14

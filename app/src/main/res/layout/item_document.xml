@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="@dimen/screen_margin" android:paddingEnd="@dimen/spacing_small" android:paddingVertical="12dp" android:background="?attr/selectableItemBackground" android:focusable="true" android:clickable="true">
+    <ImageView android:id="@+id/thumbnail" android:layout_width="56dp" android:layout_height="76dp" android:scaleType="centerInside" android:background="?attr/colorSurfaceVariant" android:importantForAccessibility="no" />
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:paddingStart="@dimen/spacing_medium">
+        <TextView android:id="@+id/name" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="?attr/textAppearanceTitleMedium" android:maxLines="2" android:ellipsize="end" />
+        <TextView android:id="@+id/metadata" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textAppearance="?attr/textAppearanceBodySmall" android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatImageButton android:id="@+id/more" android:layout_width="48dp" android:layout_height="48dp" android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/doc_more" android:contentDescription="@string/doc_more" />
+</LinearLayout>

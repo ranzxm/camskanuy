@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/documentsFragment">
+    <fragment android:id="@+id/documentsFragment" android:name="com.ranzxm.camskanuy.ui.documents.DocumentsFragment" android:label="@string/app_name" />
+    <fragment android:id="@+id/captureFragment" android:name="com.ranzxm.camskanuy.ui.capture.CaptureFragment">
+        <argument android:name="documentId" app:argType="string" />
+        <argument android:name="openGallery" app:argType="boolean" android:defaultValue="false" />
+    </fragment>
+    <fragment android:id="@+id/editorFragment" android:name="com.ranzxm.camskanuy.ui.editor.EditorFragment">
+        <argument android:name="documentId" app:argType="string" />
+    </fragment>
+    <fragment android:id="@+id/pagesFragment" android:name="com.ranzxm.camskanuy.ui.pages.PagesFragment">
+        <argument android:name="documentId" app:argType="string" />
+    </fragment>
+    <fragment android:id="@+id/detailFragment" android:name="com.ranzxm.camskanuy.ui.detail.DetailFragment">
+        <argument android:name="documentId" app:argType="string" />
+    </fragment>
+</navigation>
