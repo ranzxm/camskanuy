@@ -126,15 +126,17 @@ fun EditorScreen(model: EditorViewModel, onBack: () -> Unit, onPages: () -> Unit
                 }
             }
             BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
-                if (maxWidth > maxHeight && maxWidth >= 600.dp) {
+                val availableWidth = maxWidth
+                val availableHeight = maxHeight
+                if (availableWidth > availableHeight && availableWidth >= 600.dp) {
                     Row(Modifier.fillMaxSize()) {
                         EditorPreview(model, state, Modifier.weight(1f).fillMaxSize())
-                        EditorToolPanel(model, state, Modifier.width(maxWidth * 0.46f).fillMaxSize())
+                        EditorToolPanel(model, state, Modifier.width(availableWidth * 0.46f).fillMaxSize())
                     }
                 } else {
                     Column(Modifier.fillMaxSize()) {
                         EditorPreview(model, state, Modifier.weight(1f).fillMaxWidth())
-                        EditorToolPanel(model, state, Modifier.fillMaxWidth().heightIn(max = maxHeight * 0.48f))
+                        EditorToolPanel(model, state, Modifier.fillMaxWidth().heightIn(max = availableHeight * 0.48f))
                     }
                 }
             }
