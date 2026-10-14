@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.Camskanuy" parent="Theme.Camskanuy.Base">
+        <item name="android:windowLightNavigationBar">@bool/light_system_bars</item>
+    </style>
+</resources>

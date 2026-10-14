@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.Camskanuy" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Camskanuy.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorPrimaryContainer">@color/primary_container</item>
@@ -27,8 +27,8 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Camskanuy.Large</item>
         <item name="materialButtonStyle">@style/Widget.Camskanuy.Button</item>
         <item name="android:windowLightStatusBar">@bool/light_system_bars</item>
-        <item name="android:windowLightNavigationBar">@bool/light_system_bars</item>
     </style>
+    <style name="Theme.Camskanuy" parent="Theme.Camskanuy.Base" />
     <style name="ShapeAppearance.Camskanuy.Small" parent="ShapeAppearance.Material3.Corner.Small">
         <item name="cornerSize">12dp</item>
     </style>
