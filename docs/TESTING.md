@@ -2,9 +2,13 @@
 
 Record the commit SHA, device model, Android version, RAM, and observed results when testing. An unchecked item is **not verified**, even when the code appears to implement it.
 
-## Current Compose migration — validation pending
+## Recorded Compose validation — `be4a2b9`
 
-No Compose build, lint, unit/instrumentation results, screenshots, or physical-device acceptance are recorded yet. Rerun CI against the migrated commit; do not carry forward legacy XML checkmarks, APK size, or warning counts as Compose results.
+- [Android CI](https://github.com/ranzxm/camskanuy/actions/runs/38602735007): build, lint, and 8 JVM unit tests passed; no failed/skipped tests. Merged manifest contains no `INTERNET` permission.
+- [Android device smoke test](https://github.com/ranzxm/camskanuy/actions/runs/38602737199): 7 instrumentation tests passed on Android 35 x86_64, including Compose launch/recreation, document navigation, page/editor entry, storage safety, and image processing.
+- Home light/dark, document preview, page arrangement, and editor screenshots are in the smoke artifact. Home/detail/page screenshots were reviewed; the editor screenshot captured its loading state and does not validate loaded crop interaction.
+- Debug APK: **21,898,408 bytes** (about 21.9 MB decimal), not a release-size or installed-size estimate.
+- Physical camera, loaded editor gestures, full TalkBack/200% fonts, Android 26 compatibility, and the 20-page/3 GB RAM scenario remain unverified.
 
 ## Recorded legacy XML validation — `dc378d1`
 
@@ -22,13 +26,13 @@ Historical evidence only: these results predate the Compose redesign.
 
 ## Automated CI — current Compose commit
 
-- [ ] Gradle Wrapper validation succeeds.
-- [ ] `lintDebug` completes without errors.
-- [ ] `testDebugUnitTest` passes; inspect the report for actual test counts.
-- [ ] `assembleDebug` produces an installable APK.
-- [ ] The merged manifest contains no `android.permission.INTERNET`.
-- [ ] Debug APK and validation reports are available as Actions artifacts.
-- [ ] Emulator smoke tests pass for the Compose commit; capture/review redesigned screens, navigation, and activity recreation.
+- [x] Gradle Wrapper validation succeeds.
+- [x] `lintDebug` completes without errors.
+- [x] `testDebugUnitTest` passes; inspect the report for actual test counts.
+- [x] `assembleDebug` produces an installable APK.
+- [x] The merged manifest contains no `android.permission.INTERNET`.
+- [x] Debug APK and validation reports are available as Actions artifacts.
+- [x] Emulator smoke tests pass for the Compose commit; screen/navigation/recreation evidence captured with the editor limitation above.
 
 The local Windows environment is used only for source editing, static inspection, and Git. Do not run Gradle or install Android tooling there.
 

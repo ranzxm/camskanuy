@@ -99,6 +99,6 @@ gradle/                   # Version catalog and wrapper
 - Use Actions for lint, unit tests, and builds. Add emulator/instrumentation testing in CI when needed; do not run a local emulator.
 - Camera behavior, scan quality, low-memory behavior, and usability require testing on a physical phone. A successful build does not prove that all features work.
 - Report separately: checks actually executed, CI results, device testing, and anything not yet verified.
-- Results for `dc378d1` validate the legacy XML implementation only. Compose lint, tests, build, screenshots, and device acceptance remain pending until results for the migrated commit are recorded.
+- Results for `dc378d1` validate the legacy XML implementation only. Compose CI/emulator results for `be4a2b9` are recorded in `docs/TESTING.md`; physical-device acceptance remains pending.
 - For Markdown-only changes, a documentation consistency review is sufficient; do not claim Android tests have run.
 - Update the PRD/DESIGN together when behavior or design changes. Record new decisions without silently changing existing agreements.

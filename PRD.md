@@ -6,7 +6,7 @@
 
 CamScanner is a reference for feature categories, not a target for copying its identity or achieving full parity. Scan results are not guaranteed to match CamScanner.
 
-Status: **Compose migration and friendly redesign approved; validation pending.** Build, lint, unit tests, and Android 35 emulator smoke tests for `dc378d1` apply only to the legacy XML UI, not Compose. Physical-device acceptance remains pending. This document defines target behavior, not a claim that every acceptance criterion has passed.
+Status: **Compose redesign implemented; build, lint, 8 unit tests, and 7 Android 35 emulator tests passed for `be4a2b9`.** Physical-device acceptance remains pending. Legacy `dc378d1` results apply only to the former XML UI. This document defines target behavior, not a claim that every acceptance criterion has passed.
 
 ## 2. Agreed decisions
 
