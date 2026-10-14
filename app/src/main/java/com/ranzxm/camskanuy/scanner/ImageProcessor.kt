@@ -211,28 +211,29 @@ class ImageProcessor(context: Context) {
     private suspend fun applyFilter(bitmap: Bitmap, filter: ScanFilter) {
         if (filter == ScanFilter.ORIGINAL) return
         val row = IntArray(bitmap.width)
-        // A local horizontal mean makes black/white more tolerant of uneven lighting than a fixed cutoff.
-        val prefix = IntArray(bitmap.width + 1)
-        val radius = (bitmap.width / 24).coerceAtLeast(12)
+        if (filter == ScanFilter.BLACK_WHITE) {
+            val gray = ByteArray(bitmap.width * bitmap.height)
+            for (y in 0 until bitmap.height) {
+                currentCoroutineContext().ensureActive()
+                bitmap.getPixels(row, 0, bitmap.width, 0, y, bitmap.width, 1)
+                for (x in row.indices) gray[y * bitmap.width + x] = luminance(row[x]).toByte()
+            }
+            val context = currentCoroutineContext()
+            DocumentMonochrome.render(gray, bitmap.width, bitmap.height) { y, output ->
+                context.ensureActive()
+                bitmap.setPixels(output, 0, bitmap.width, 0, y, bitmap.width, 1)
+            }
+            return
+        }
         for (y in 0 until bitmap.height) {
             currentCoroutineContext().ensureActive()
             bitmap.getPixels(row, 0, bitmap.width, 0, y, bitmap.width, 1)
-            if (filter == ScanFilter.BLACK_WHITE) {
-                prefix[0] = 0
-                for (x in row.indices) prefix[x + 1] = prefix[x] + luminance(row[x])
-            }
             for (x in row.indices) {
                 val c = row[x]
                 row[x] = when (filter) {
                     ScanFilter.COLOR -> Color.rgb(enhance(Color.red(c)), enhance(Color.green(c)), enhance(Color.blue(c)))
                     ScanFilter.GRAYSCALE -> luminance(c).let { Color.rgb(it, it, it) }
-                    ScanFilter.BLACK_WHITE -> {
-                        val left = (x - radius).coerceAtLeast(0)
-                        val right = (x + radius + 1).coerceAtMost(row.size)
-                        val local = (prefix[right] - prefix[left]) / (right - left)
-                        if (luminance(c) < (local - 12).coerceAtLeast(48)) Color.BLACK else Color.WHITE
-                    }
-                    ScanFilter.ORIGINAL -> c
+                    ScanFilter.ORIGINAL, ScanFilter.BLACK_WHITE -> c
                 }
             }
             bitmap.setPixels(row, 0, bitmap.width, 0, y, bitmap.width, 1)

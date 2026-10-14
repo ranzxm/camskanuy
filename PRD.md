@@ -56,6 +56,7 @@ Presentation: first-scan hero with Scan/Import actions; compact search/folder ch
 - Apply perspective correction using the four selected corners.
 - Support rotation in 90-degree increments.
 - Filters: **Original**, **Color**, **Grayscale**, and **Black and white**. Color applies mild readability enhancement.
+- Black and white estimates the local paper background in two dimensions and retains a narrow grayscale transition at text edges. It is enhanced monochrome, not strict one-bit output; existing saved pages must be re-rendered to apply algorithm updates.
 - Use downsampled previews and higher-resolution images for exports.
 - Preserve source images and edit parameters so cropping/filtering can be adjusted without accumulating compression degradation.
 

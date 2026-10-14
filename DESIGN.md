@@ -119,6 +119,7 @@ Multiple imported images enter an editor review queue; process them one at a tim
 - Give the large preview most of the screen, with a crop overlay and four easy-to-touch corner handles.
 - Bottom labeled tool tabs: **Crop** and **Filter**; provide rotation as an icon + text action. Keep secondary controls compact, not stacked above the preview.
 - In Filter mode, show a horizontal preview strip: Original, Color, Grayscale, Black and white. Mark the active option with an outline/checkmark, not color alone.
+- Black and white retains soft grayscale text edges instead of jagged one-bit boundaries; do not imply lossless or archival output.
 - Bottom primary action: **Use page** for new pages, **Save changes** when re-editing.
 - When crop detection fails: “Adjust the document corners manually.”
 - Provide crop reset and an expandable **Fine adjustment** section for selecting and moving corners with directional controls. Keep it collapsed by default; TalkBack must expose the toggle and controls. This adjusts crop corners, not new brightness/contrast features.
